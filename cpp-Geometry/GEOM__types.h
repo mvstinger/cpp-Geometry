@@ -14,6 +14,14 @@ namespace Geometry {
 
 
 
+const double GEOM__MAX_ERROR = 1e-6;
+
+
+const int GEOM__INDETERMINATE =		-100;
+const int GEOM__NO_INTERSECTION =	+100;
+const int GEOM__INTERSECTION =		+101;
+
+
 
 //	Forward declarations
 struct Coordinate;
@@ -112,10 +120,15 @@ public:
 
 	Point point_1;
 	Point point_2;
+
+	//TODO: define line-line intersection
+	int intersection(const Line, Point&) const;
+	//TODO: define line-segment intersection
+//	int intersect(const Segment);
 };
 
 
-
+//TODO: de-inherit from Line
 class Segment : public Line {
 public:
 	Segment(void);
@@ -129,7 +142,7 @@ public:
 };
 
 
-
+//TODO: de-inherit from Line
 class Vector : public Line {
 public:
 	Vector(void);
@@ -141,6 +154,7 @@ public:
 	explicit operator Segment(void) const;
 
 	double length(void) const;
+	//TODO: Fix norm to be perpendicular
 	Vector norm(void) const;
 
 	double x(void) const;

@@ -166,6 +166,49 @@ Line::Line(const Point pt1, const Point pt2) :
 		point_1(Point(pt1)),
 		point_2(Point(pt2)) {};
 
+int Line::intersection(const Line that, Point& intersection) const {
+	int intersection_state = GEOM__INDETERMINATE;
+
+	double a1 = this->point_2.x() - this->point_1.x();
+	double a2 = that.point_2.x() - that.point_1.x();
+	double b1 = this->point_2.y() - this->point_1.y();
+	double b2 = that.point_2.y() - that.point_1.y();
+	double c1 = this->point_2.z() - this->point_1.z();
+	double c2 = that.point_2.z() - that.point_1.z();
+	double x1 = this->point_1.x();
+	double x2 = that.point_1.x();
+	double y1 = this->point_1.y();
+	double y2 = that.point_1.y();
+	double z1 = this->point_1.z();
+	double z2 = that.point_1.z();
+
+	try {
+		double t2 = (
+				(y1 - y2) / b2 + (b1 / b2) * (x2 - x1) / a1
+		) / (
+				1 - (b1 / b2) * (a2 / a1) );
+		double t1 = (1 / a1) * (x2 - x1) + (a2 / a1) * t2;
+
+		double x_diff = (x1 + a1 * t1) - (x2 + a2 * t2);
+		double y_diff = (y1 + b1 * t1) - (y2 + b2 * t2);
+		double z_diff = (z1 + c1 * t1) - (z2 + c2 * t2);
+
+		double x_eps = GEOM__MAX_ERROR * abs(x2 - x1);
+		double y_eps = GEOM__MAX_ERROR * abs(y2 - y1);
+		double z_eps = GEOM__MAX_ERROR * abs(z2 - z1);
+
+		if(x_diff<=x_eps && y_diff<=y_eps && z_diff<=z_eps) {
+			intersection_state = GEOM__INTERSECTION;
+			intersection = Point(x1 + a1 * t1, y1 + b1 * t1, z1 + c1 * t1);
+		} else {
+			intersection_state = GEOM__NO_INTERSECTION;
+		}
+	} catch (...) {
+		intersection_state = GEOM__INDETERMINATE;
+	}
+
+	return intersection_state;
+};
 
 
 Segment::Segment(void) :
