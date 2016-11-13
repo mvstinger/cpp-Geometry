@@ -125,7 +125,7 @@ public:
 	double length(void) const;
 
 	Vector as_Vector(void) const;
-	//TODO: Add cast to Vector
+	explicit operator Vector(void) const;
 };
 
 
@@ -138,7 +138,7 @@ public:
 	Vector(const Vector&);
 
 	Segment as_Segment(void) const;
-	//TODO: Add cast to Segment
+	explicit operator Segment(void) const;
 
 	double length(void) const;
 	Vector norm(void) const;

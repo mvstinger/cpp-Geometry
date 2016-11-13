@@ -191,6 +191,10 @@ Vector Segment::as_Vector(void) const {
 			this->point_2.z() - this->point_1.z() ) );
 };
 
+Segment::operator Vector(void) const {
+	return this->as_Vector();
+};
+
 
 
 Vector::Vector(void) :
@@ -205,9 +209,7 @@ Vector::Vector(const Point pt2) :
 };
 
 Vector::Vector(const Direction dir, const double len) :
-		Line(ORIGIN, ORIGIN) {
-//	TODO: Implement direction, length constructor
-};
+		Line(ORIGIN, Point(SphericalCoordinate(len, dir.theta, dir.phi))) {};
 
 Vector::Vector(const Vector& vec) :
 		Line(vec.point_1, vec.point_2) {};
@@ -215,7 +217,10 @@ Vector::Vector(const Vector& vec) :
 Segment Vector::as_Segment(void) const {
 	return Segment(ORIGIN, Point(this->point_2));
 };
-//	//TODO: Add cast to Segment
+
+Vector::operator Segment() const {
+	return this->as_Segment();
+};
 
 Vector Vector::norm(void) const {
 	return *this / this->length();
